@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        const mathModule = () => {
+            console.log('Math module runs!')
+
+            const add = (a, b) => a + b
+            const subtract = (a, b) => a - b
+
+            return {
+                add: add,
+                subtract: subtract,
+                default: add,
+            }
+        }
+
+        const indexModule = () => {
+            const container = importModule('mathModule')
+            const container2 = importModule('mathModule')
+            const container3 = importModule('mathModule')
+            const container4 = importModule('mathModule')
+            console.log(container === container2)
+            console.log(container === container3)
+            console.log(container === container4)
+            const add = container.default
+            const addNamed = container.add
+            const subtract = container.subtract
+
+            console.log(addNamed === add)
+            console.log(add(1, 2))
+            console.log(subtract(1, 2))
+        }
+
+        const importModule = (moduleName) => {
+            const container = modulesContainer[moduleName]
+
+            if (container) return container
+
+            const module = modules[moduleName]
+
+            modulesContainer[moduleName] = module()
+
+            return modulesContainer[moduleName]
+        }
+
+        const modules = {
+            mathModule: mathModule,
+            indexModule: indexModule,
+        }
+        const modulesContainer = {}
+
+        importModule('indexModule')
+
+    </script>
+
+</body>
+
+</html>
